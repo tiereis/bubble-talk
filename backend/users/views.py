@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .serializers import RegisterSerializer, ProfileSerializer
+from django.shortcuts import get_object_or_404
+from .serializers import RegisterSerializer, ProfileSerializer, UserSerializer
 from .models import Profile, Follow
 
 class RegisterView(generics.CreateAPIView):
@@ -54,30 +54,28 @@ class FollowView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
-        # Encontra o usuário que será seguido
-        followed = get_object_or_404(User, id=user_id)
-        follower = request.user
-
-        # Evita que o usuário se siga
-        if follower == followed:
-            return Response({"detail": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Tenta criar a relação de follow
-        follow, created = Follow.objects.get_or_create(follower=follower, followed=followed)
-
-        if created:
-            return Response({"detail": f"You are now following {followed.username}."}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"detail": f"You are already following {followed.username}."}, status=status.HTTP_200_OK)
+        user_to_follow = get_object_or_404(User, id=user_id)
+        if request.user == user_to_follow:
+            return Response({'detail': 'Você não pode seguir a si mesmo.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        Follow.objects.get_or_create(follower=request.user, followed=user_to_follow)
+        return Response({'detail': 'Usuário seguido com sucesso.'}, status=status.HTTP_201_CREATED)
 
     def delete(self, request, user_id):
-        # Encontra a relação de follow e a deleta
-        followed = get_object_or_404(User, id=user_id)
-        follower = request.user
+        user_to_unfollow = get_object_or_404(User, id=user_id)
         
-        try:
-            follow = Follow.objects.get(follower=follower, followed=followed)
-            follow.delete()
-            return Response({"detail": f"You have unfollowed {followed.username}."}, status=status.HTTP_204_NO_CONTENT)
-        except Follow.DoesNotExist:
-            return Response({"detail": "You are not following this user."}, status=status.HTTP_404_NOT_FOUND)
+        follow_instance = Follow.objects.filter(follower=request.user, followed=user_to_unfollow)
+        if not follow_instance.exists():
+            return Response({'detail': 'Você não está seguindo este usuário.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        follow_instance.delete()
+        return Response({'detail': 'Usuário deixou de ser seguido com sucesso.'}, status=status.HTTP_204_NO_CONTENT)
+
+        
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all().order_by('username')
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_context(self):
+        return {'request': self.request}

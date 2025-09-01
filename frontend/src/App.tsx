@@ -7,13 +7,13 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
+import UserList from './components/UserList'; // Importe o componente UserList
 
 function App() {
   const [user, setUser] = useState<{ username: string } | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Esta função é chamada ao carregar a página para verificar o token
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -28,24 +28,22 @@ function App() {
         } catch (error) {
           console.error('Falha ao buscar perfil', error);
           localStorage.removeItem('token');
-          setUser(null); // Limpa o estado se o token for inválido
+          setUser(null);
         }
       };
       fetchUserProfile();
     }
   }, []);
 
-  // Nova função para lidar com o login bem-sucedido
   const handleLogin = (username: string) => {
     setUser({ username });
-    navigate('/feed'); // Redireciona para o feed
+    navigate('/feed');
   };
 
-  // Nova função para lidar com o logout
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setUser(null); // Limpa o estado
-    navigate('/login'); // Redireciona para a página de login
+    setUser(null);
+    navigate('/login');
   };
 
   return (
@@ -65,6 +63,9 @@ function App() {
                   ) : (
                     <Link className="nav-link" to="/profile">Perfil</Link>
                   )}
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/users">Descobrir</Link> {/* Adicione o link para a lista de usuários */}
                 </li>
                 <li className="nav-item">
                   <span className="nav-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
@@ -91,6 +92,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/users" element={<UserList />} /> {/* Adicione a rota para UserList */}
       </Routes>
     </>
   );
