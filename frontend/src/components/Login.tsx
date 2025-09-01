@@ -2,12 +2,17 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// Remova o useNavigate se ele não for usado para redirecionar dentro do componente
+// import { useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
+interface LoginProps {
+  onLoginSuccess: (username: string) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // Remova esta linha
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,10 +21,10 @@ const Login: React.FC = () => {
         username,
         password,
       });
-      // Salva o token no localStorage
       localStorage.setItem('token', response.data.token);
       alert('Login bem-sucedido!');
-      navigate('/feed'); // Redireciona para o feed
+      // Chame a função passada por prop, enviando o username
+      onLoginSuccess(username);
     } catch (error) {
       alert('Erro ao fazer login. Verifique suas credenciais.');
       console.error(error);

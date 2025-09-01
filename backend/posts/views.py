@@ -24,10 +24,13 @@ class NewsFeedView(generics.ListAPIView):
 
     def get_queryset(self):
         # Encontra todos os usuários que o usuário logado segue
-        following_users = self.request.user.following.values_list('followed_id', flat=True)
+        following_users_ids = self.request.user.following.values_list('followed_id', flat=True)
         
-        # Filtra as postagens para incluir apenas as desses usuários
-        queryset = Post.objects.filter(author_id__in=following_users).order_by('-created_at')
+        # Converte o ValuesListQuerySet para uma lista e adiciona o ID do usuário logado
+        following_and_self_ids = list(following_users_ids) + [self.request.user.id]
+
+        # Filtra as postagens para incluir as desses usuários e as suas próprias
+        queryset = Post.objects.filter(author_id__in=following_and_self_ids).order_by('-created_at')
         return queryset
     
 class CommentListCreateView(generics.ListCreateAPIView):
