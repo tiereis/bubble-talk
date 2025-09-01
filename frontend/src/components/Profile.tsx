@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Card, Alert, Spinner } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Spinner } from 'react-bootstrap';
 
-// Definição da interface para os dados do perfil
 interface ProfileData {
   user: {
     id: number;
@@ -22,11 +21,9 @@ const Profile: React.FC = () => {
   const [editing, setEditing] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const navigate = useNavigate();
 
-  // Função para buscar os dados do perfil
   const fetchProfile = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -56,7 +53,6 @@ const Profile: React.FC = () => {
     fetchProfile();
   }, [navigate]);
 
-  // Função para lidar com a atualização do perfil
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
@@ -83,7 +79,7 @@ const Profile: React.FC = () => {
 
       alert('Perfil atualizado com sucesso!');
       setEditing(false);
-      fetchProfile(); // Recarrega os dados para mostrar a atualização
+      fetchProfile();
     } catch (err) {
       alert('Erro ao atualizar o perfil. Tente novamente.');
       console.error(err);
@@ -92,9 +88,9 @@ const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <Container className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-5">
         <Spinner animation="border" />
-      </Container>
+      </div>
     );
   }
 
@@ -103,8 +99,8 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <Container className="mt-5">
-      <h2>Perfil do Usuário</h2>
+    <div className="mt-5">
+      <h2 className='text-light'>Perfil do Usuário</h2>
       <Card>
         <Card.Body>
           <Card.Title>@{profile?.user.username}</Card.Title>
@@ -140,7 +136,7 @@ const Profile: React.FC = () => {
           </Card.Body>
         </Card>
       )}
-    </Container>
+    </div>
   );
 };
 

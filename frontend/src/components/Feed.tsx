@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Spinner, Alert, Form, Button } from 'react-bootstrap';
+import { Card, Spinner, Alert, Form, Button } from 'react-bootstrap';
 
-// Definição da interface para os tipos de dados
 interface Post {
   id: number;
   author_username: string;
@@ -134,27 +133,26 @@ const Feed: React.FC = () => {
 
   if (loading) {
     return (
-      <Container className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-5">
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Carregando...</span>
         </Spinner>
-      </Container>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Container className="mt-5">
+      <div className="mt-5">
         <Alert variant="danger">{error}</Alert>
-      </Container>
+      </div>
     );
   }
 
   return (
-    <Container className="mt-5">
-      <h2>Seu Feed de Notícias</h2>
+    <div className="mt-5">
+      <h2 className='text-light'>Seu Feed de Notícias</h2>
       
-      {/* Formulário de Nova Postagem */}
       <Card className="mb-4">
         <Card.Body>
           <Form onSubmit={handleCreatePost}>
@@ -191,7 +189,6 @@ const Feed: React.FC = () => {
               
               <hr />
 
-              {/* Formulário e Lista de Comentários */}
               <div className="mt-3">
                 <h5>Comentários</h5>
                 {post.comments.length > 0 ? (
@@ -229,7 +226,7 @@ const Feed: React.FC = () => {
       ) : (
         <Alert variant="info">Seu feed está vazio. Siga algumas pessoas para ver as postagens!</Alert>
       )}
-    </Container>
+    </div>
   );
 };
 

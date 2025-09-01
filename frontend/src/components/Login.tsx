@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-// Remova o useNavigate se ele não for usado para redirecionar dentro do componente
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
 interface LoginProps {
   onLoginSuccess: (username: string) => void;
@@ -12,7 +12,7 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const navigate = useNavigate(); // Remova esta linha
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +23,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       });
       localStorage.setItem('token', response.data.token);
       alert('Login bem-sucedido!');
-      // Chame a função passada por prop, enviando o username
       onLoginSuccess(username);
     } catch (error) {
       alert('Erro ao fazer login. Verifique suas credenciais.');
@@ -32,29 +31,27 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Nome de Usuário</label>
-          <input
+    <div className="mt-5">
+      <h2 className='text-light'>Login</h2>
+      <Form onSubmit={handleSubmit}>
+        <div className="mb-3 text-light">
+          <Form.Label>Nome de Usuário</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Senha</label>
-          <input
+        <div className="mb-3 text-light">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control
             type="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Entrar</button>
-      </form>
+        <Button type="submit" variant="primary">Entrar</Button>
+      </Form>
     </div>
   );
 };

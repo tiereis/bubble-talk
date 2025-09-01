@@ -55,7 +55,19 @@ Certifique-se de ter o Python (recomendado 3.10+) e o Node.js instalados.
     O back-end estará rodando em `http://127.0.0.1:8000`.
 
 ### 3. Configuração do Front-end
-(Adicionar as instruções para o Front-end aqui quando estiver pronto)
+1.  Abra um **novo terminal** e navegue para a pasta `frontend` do projeto:
+    ```bash
+    cd frontend
+    ```
+2.  Instale as dependências do React:
+    ```bash
+    npm install
+    ```
+3.  Inicie o servidor de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
+    O front-end estará rodando em `http://localhost:5173`.
 
 ### Endpoints da API (Back-end)
 
@@ -65,7 +77,8 @@ Aqui estão os principais endpoints da API do back-end.
 * **`POST /api/users/login/`**: Autentica o usuário e retorna um token.
 * **`GET /api/users/profile/`**: Obtém os dados do perfil do usuário autenticado.
 * **`PATCH /api/users/profile/`**: Edita os dados do perfil.
-* **`POST /api/users/follow/<int:user_id>/`**: Segue/deixa de seguir um usuário.
+* **`POST /api/users/follow/<int:user_id>/`**: Segue um usuário.
+* **`DELETE /api/users/follow/<int:user_id>/`**: Deixa de seguir um usuário.
 * **`GET /api/posts/all/`**: Lista todas as postagens.
 * **`POST /api/posts/all/`**: Cria uma nova postagem (requer autenticação).
 * **`GET /api/posts/feed/`**: Retorna o feed de notícias do usuário autenticado (apenas postagens de quem ele segue).

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -13,13 +14,13 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/users/register/', {
+      await axios.post('http://127.0.0.1:8000/api/users/register/', {
         username,
         email,
         password,
       });
       alert('Registro bem-sucedido! Agora você pode fazer login.');
-      navigate('/login'); // Redireciona para a página de login
+      navigate('/login');
     } catch (error) {
       alert('Erro ao registrar. Verifique os dados ou tente outro nome de usuário.');
       console.error(error);
@@ -27,38 +28,35 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Registro</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Nome de Usuário</label>
-          <input
+    <div className="mt-5">
+      <h2 className='text-light'>Registro</h2>
+      <Form onSubmit={handleSubmit}>
+        <div className="mb-3 text-light">
+          <Form.Label>Nome de Usuário</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
+        <div className="mb-3 text-light">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
             type="email"
-            className="form-control"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Senha</label>
-          <input
+        <div className="mb-3 text-light">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control
             type="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Registrar</button>
-      </form>
+        <Button type="submit" variant="primary">Registrar</Button>
+      </Form>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
-import UserList from './components/UserList'; // Importe o componente UserList
+import UserList from './components/UserList';
 
 function App() {
   const [user, setUser] = useState<{ username: string } | null>(null);
@@ -48,7 +48,7 @@ function App() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
         <div className="container">
           <Link className="navbar-brand" to="/">Bubble-Talk</Link>
           <ul className="navbar-nav ms-auto">
@@ -65,7 +65,7 @@ function App() {
                   )}
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/users">Descobrir</Link> {/* Adicione o link para a lista de usuários */}
+                  <Link className="nav-link" to="/users">Descobrir</Link>
                 </li>
                 <li className="nav-item">
                   <span className="nav-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
@@ -87,13 +87,16 @@ function App() {
         </div>
       </nav>
       
-      <Routes>
-        <Route path="/login" element={<Login onLoginSuccess={handleLogin} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/users" element={<UserList />} /> {/* Adicione a rota para UserList */}
-      </Routes>
+      {/* Centraliza o corpo da aplicação com a nova classe CSS */}
+      <div className="centered-content" style={{ paddingTop: '70px' }}>
+        <Routes>
+          <Route path="/login" element={<Login onLoginSuccess={handleLogin} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/users" element={<UserList />} />
+        </Routes>
+      </div>
     </>
   );
 }

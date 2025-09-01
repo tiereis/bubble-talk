@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Alert, Button, Spinner } from 'react-bootstrap';
+import { Card, Alert, Button, Spinner } from 'react-bootstrap';
 
 interface User {
   id: number;
@@ -46,25 +46,13 @@ const UserList: React.FC = () => {
     if (!token) return navigate('/login');
 
     try {
-      if (isCurrentlyFollowing) {
-        // Lógica para deixar de seguir (DELETE request)
-        await axios.delete(`http://127.0.0.1:8000/api/users/follow/${userId}/`, {
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-        alert('Você deixou de seguir este usuário!');
-      } else {
-        // Lógica para seguir (POST request)
-        await axios.post(`http://127.0.0.1:8000/api/users/follow/${userId}/`, {}, {
-          headers: {
-            'Authorization': `Token ${token}`,
-          },
-        });
-        alert('Agora você está seguindo este usuário!');
-      }
-      // Após a ação, atualize a lista de usuários para refletir a mudança
-      fetchUsers(); 
+      const method = isCurrentlyFollowing ? 'delete' : 'post';
+      await axios({
+        method: method,
+        url: `http://127.0.0.1:8000/api/users/follow/${userId}/`,
+        headers: { 'Authorization': `Token ${token}` },
+      });
+      fetchUsers(); // Recarrega a lista para atualizar os botões
     } catch (err) {
       alert('Erro ao processar a ação. Tente novamente.');
       console.error(err);
@@ -75,13 +63,12 @@ const UserList: React.FC = () => {
   if (error) return <Alert variant="danger">{error}</Alert>;
 
   return (
-    <Container className="mt-5">
-      <h2>Descobrir Pessoas</h2>
+    <div className="mt-5">
+      <h2 className='text-light'>Descobrir Pessoas</h2>
       {users.map(user => (
         <Card key={user.id} className="mb-2">
           <Card.Body className="d-flex justify-content-between align-items-center">
             <h5>@{user.username}</h5>
-            {/* Renderização condicional do botão */}
             <Button 
               onClick={() => handleToggleFollow(user.id, user.is_following)}
               variant={user.is_following ? "outline-secondary" : "primary"}
@@ -91,7 +78,7 @@ const UserList: React.FC = () => {
           </Card.Body>
         </Card>
       ))}
-    </Container>
+    </div>
   );
 };
 
