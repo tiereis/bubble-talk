@@ -31,7 +31,7 @@ const Profile: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/users/profile/', {
+      const response = await axios.get('https://tiereis.pythonanywhere.com/api/users/profile/', {
         headers: {
           'Authorization': `Token ${token}`,
         },
@@ -70,7 +70,7 @@ const Profile: React.FC = () => {
         formData.append('profile_picture', profilePicture);
       }
 
-      await axios.patch('http://127.0.0.1:8000/api/users/profile/', formData, {
+      await axios.patch('https://tiereis.pythonanywhere.com/api/users/profile/', formData, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -106,7 +106,7 @@ const Profile: React.FC = () => {
           <Card.Title>@{profile?.user.username}</Card.Title>
           <Card.Text>Email: {profile?.user.email}</Card.Text>
           {profile?.profile_picture && (
-            <img src={`http://127.0.0.1:8000${profile.profile_picture}`} alt="Foto de Perfil" className="img-thumbnail" style={{ width: '150px' }} />
+            <img src={`https://tiereis.pythonanywhere.com${profile.profile_picture}`} alt="Foto de Perfil" className="img-thumbnail" style={{ width: '150px' }} />
           )}
           <Button onClick={() => setEditing(!editing)} className="mt-3">
             {editing ? 'Cancelar' : 'Editar Perfil'}

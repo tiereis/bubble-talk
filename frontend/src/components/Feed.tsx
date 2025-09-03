@@ -37,7 +37,7 @@ const Feed: React.FC = () => {
     }
 
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/posts/feed/', {
+      const response = await axios.get('https://tiereis.pythonanywhere.com/api/posts/feed/', {
         headers: {
           'Authorization': `Token ${token}`,
         },
@@ -64,7 +64,7 @@ const Feed: React.FC = () => {
     if (!token) return navigate('/login');
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/posts/all/', {
+      const response = await axios.post('https://tiereis.pythonanywhere.com/api/posts/all/', {
         content: newPostContent,
       }, {
         headers: {
@@ -87,7 +87,7 @@ const Feed: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/posts/${postId}/like/`, {}, {
+      const response = await axios.post(`https://tiereis.pythonanywhere.com/api/posts/${postId}/like/`, {}, {
         headers: {
           'Authorization': `Token ${token}`,
         },
@@ -114,7 +114,7 @@ const Feed: React.FC = () => {
     if (!token || !commentContent) return;
 
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/posts/${postId}/comments/`, {
+      const response = await axios.post(`https://tiereis.pythonanywhere.com/api/posts/${postId}/comments/`, {
         content: commentContent
       }, {
         headers: {

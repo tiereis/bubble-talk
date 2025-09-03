@@ -24,7 +24,7 @@ const UserList: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/users/list/', {
+      const response = await axios.get('https://tiereis.pythonanywhere.com/api/users/list/', {
         headers: {
           'Authorization': `Token ${token}`,
         },
@@ -49,7 +49,7 @@ const UserList: React.FC = () => {
       const method = isCurrentlyFollowing ? 'delete' : 'post';
       await axios({
         method: method,
-        url: `http://127.0.0.1:8000/api/users/follow/${userId}/`,
+        url: `https://tiereis.pythonanywhere.com/api/users/follow/${userId}/`,
         headers: { 'Authorization': `Token ${token}` },
       });
       fetchUsers(); // Recarrega a lista para atualizar os botões

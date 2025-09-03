@@ -14,7 +14,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:8000/api/users/register/', {
+      await axios.post('https://tiereis.pythonanywhere.com/api/users/register/', {
         username,
         email,
         password,

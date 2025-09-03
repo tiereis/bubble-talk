@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Login from './components/Login';
@@ -19,7 +19,7 @@ function App() {
     if (token) {
       const fetchUserProfile = async () => {
         try {
-          const response = await axios.get('http://127.0.0.1:8000/api/users/profile/', {
+          const response = await axios.get('https://tiereis.pythonanywhere.com/api/users/profile/', {
             headers: {
               'Authorization': `Token ${token}`,
             },
