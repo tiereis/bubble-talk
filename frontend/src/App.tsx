@@ -55,7 +55,7 @@ function App() {
             {user ? (
               <>
                 <li className="nav-item">
-                  <span className="nav-link text-dark me-2">Olá, {user.username}</span>
+                  <span className="nav-link text-light me-2">Olá, {user.username}</span>
                 </li>
                 <li className="nav-item">
                   {location.pathname === '/profile' ? (
