@@ -9,14 +9,11 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .serializers import RegisterSerializer, ProfileSerializer, UserSerializer
 from .models import Profile, Follow
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.views import obtain_auth_token
+#from rest_framework.authtoken.views import obtain_auth_token
 
-@csrf_exempt
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-obtain_auth_token = csrf_exempt(obtain_auth_token)
 
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
